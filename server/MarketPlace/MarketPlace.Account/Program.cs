@@ -1,0 +1,37 @@
+using Application.Extension;
+using Infrastructure.Extensions;
+using Persistence.Extensions;
+using Persistence.SeedData;
+
+var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddApplicationLayer();
+builder.Services.AddInfrastructureLayer();
+builder.Services.AddPersistenceLayer(builder.Configuration);
+
+builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+
+var app = builder.Build();
+
+app.DbInitialize();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+
+
