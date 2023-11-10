@@ -12,7 +12,7 @@ public class ProductRepository : IProductRepository
     {
         _repository = repository;
     }
-    
+
     public async Task<List<Product>> GetProductsByTitleAsync(string title)
     {
         return await _repository.Entities

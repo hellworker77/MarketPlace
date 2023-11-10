@@ -1,6 +1,6 @@
 ﻿using Domain.Common;
 
-#pragma warning disable CS8618 
+#pragma warning disable CS8618
 
 namespace Domain.Entities;
 

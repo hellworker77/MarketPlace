@@ -1,6 +1,7 @@
 ﻿using Application.Common.Mappings;
 using Domain.Entities;
-#pragma warning disable CS8618 
+
+#pragma warning disable CS8618
 namespace Application.Features.Products.Queries.GetProductsWithPagination;
 
 public class GetProductsWithPaginationDto : IMapFrom<Product>

@@ -1,7 +1,6 @@
 using Application.Extension;
 using Infrastructure.Extensions;
 using Persistence.Extensions;
-using Persistence.SeedData;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,10 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 var app = builder.Build();
-
-app.DbInitialize();
 
 if (app.Environment.IsDevelopment())
 {
@@ -33,5 +29,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-

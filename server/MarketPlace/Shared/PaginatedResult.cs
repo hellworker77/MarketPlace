@@ -1,6 +1,4 @@
-﻿using Shared.Interfaces;
-
-namespace Shared;
+﻿namespace Shared;
 
 public class PaginatedResult<T> : Result<T>
 {
@@ -21,7 +19,7 @@ public class PaginatedResult<T> : Result<T>
         Succeeded = succeeded;
         Messages = messages;
         PageSize = pageSize;
-        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+        TotalPages = (int) Math.Ceiling(count / (double) pageSize);
         TotalCount = count;
     }
 

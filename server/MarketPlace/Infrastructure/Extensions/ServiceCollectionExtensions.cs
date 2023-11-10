@@ -9,7 +9,6 @@ namespace Infrastructure.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    
     public static void AddInfrastructureLayer(this IServiceCollection services)
     {
         services.AddServices();

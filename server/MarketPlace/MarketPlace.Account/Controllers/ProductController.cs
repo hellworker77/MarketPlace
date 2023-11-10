@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Application.Features.Products.Commands.CreateProduct;
 using Application.Features.Products.Queries.GetProductsWithPagination;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
 
@@ -24,17 +19,14 @@ public class ProductController : ControllerBase
 
     [HttpGet]
     [Route("paged")]
-    public async Task<ActionResult<PaginatedResult<GetProductsWithPaginationDto>>> GetPlayersWithPagination(
+    public async Task<ActionResult<PaginatedResult<GetProductsWithPaginationDto>>> GetProductsWithPagination(
         [FromQuery] GetProductsWithPaginationQuery query)
     {
         var validator = new GetProductsWithPaginationValidator();
 
         var result = await validator.ValidateAsync(query);
 
-        if (result.IsValid)
-        {
-            return await _mediator.Send(query);
-        }
+        if (result.IsValid) return await _mediator.Send(query);
 
         var errorMessages = result.Errors.Select(x => x.ErrorMessage).ToList();
         return BadRequest(errorMessages);

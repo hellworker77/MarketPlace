@@ -5,7 +5,7 @@ using Domain.Entities;
 using MediatR;
 using Shared;
 
-#pragma warning disable CS8618 
+#pragma warning disable CS8618
 namespace Application.Features.Products.Commands.CreateProduct;
 
 public record class CreateProductCommand : IRequest<Result<Guid>>, IMapFrom<Product>
@@ -20,8 +20,8 @@ public record class CreateProductCommand : IRequest<Result<Guid>>, IMapFrom<Prod
 
 internal class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Result<Guid>>
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
     public CreateProductCommandHandler(IUnitOfWork unitOfWork,
         IMapper mapper)
@@ -32,7 +32,7 @@ internal class CreateProductCommandHandler : IRequestHandler<CreateProductComman
 
     public async Task<Result<Guid>> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        var product = new Product()
+        var product = new Product
         {
             Title = command.Title,
             Price = command.Price,
