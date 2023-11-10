@@ -10,12 +10,8 @@ namespace Application.Features.Products.Queries.GetProductsWithPagination;
 
 public record class GetProductsWithPaginationQuery : IRequest<PaginatedResult<GetProductsWithPaginationDto>>
 {
-    public int PageNumber { get; set; }
-    public int PageSize { get; set; }
-
     public GetProductsWithPaginationQuery()
     {
-        
     }
 
     public GetProductsWithPaginationQuery(int pageNumber,
@@ -24,12 +20,16 @@ public record class GetProductsWithPaginationQuery : IRequest<PaginatedResult<Ge
         PageNumber = pageNumber;
         PageSize = pageSize;
     }
+
+    public int PageNumber { get; set; }
+    public int PageSize { get; set; }
 }
 
-internal class GetProductsWithPaginationQueryHandler : IRequestHandler<GetProductsWithPaginationQuery, PaginatedResult<GetProductsWithPaginationDto>>
+internal class GetProductsWithPaginationQueryHandler : IRequestHandler<GetProductsWithPaginationQuery,
+    PaginatedResult<GetProductsWithPaginationDto>>
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
     public GetProductsWithPaginationQueryHandler(IUnitOfWork unitOfWork,
         IMapper mapper)
@@ -37,11 +37,12 @@ internal class GetProductsWithPaginationQueryHandler : IRequestHandler<GetProduc
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
-    
-    public async Task<PaginatedResult<GetProductsWithPaginationDto>> Handle(GetProductsWithPaginationQuery query, CancellationToken cancellationToken)
+
+    public async Task<PaginatedResult<GetProductsWithPaginationDto>> Handle(GetProductsWithPaginationQuery query,
+        CancellationToken cancellationToken)
     {
         return await _unitOfWork.Repository<Product>().Entities
-            .OrderBy(x=>x.UpdatedDate)
+            .OrderBy(x => x.UpdatedDate)
             .ProjectTo<GetProductsWithPaginationDto>(_mapper.ConfigurationProvider)
             .ToPaginatedListAsync(query.PageNumber, query.PageSize, cancellationToken);
     }

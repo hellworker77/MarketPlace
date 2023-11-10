@@ -9,13 +9,13 @@ namespace Persistence.Contexts;
 public class ApplicationDbContext : DbContext
 {
     private readonly IDomainEventDispatcher? _dispatcher;
-    
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,
         IDomainEventDispatcher dispatcher) : base(options)
     {
         _dispatcher = dispatcher;
     }
-    
+
     public DbSet<Product> Products => Set<Product>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,10 +23,10 @@ public class ApplicationDbContext : DbContext
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
-    
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
-        int result = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        var result = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
         // ignore events if no dispatcher provided
         if (_dispatcher == null) return result;

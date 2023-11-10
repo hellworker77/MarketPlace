@@ -4,7 +4,7 @@ namespace Shared;
 
 public class Result<T> : IResult<T>
 {
-    public List<string>? Messages { get; set; } = new List<string>();
+    public List<string>? Messages { get; set; } = new();
 
     public bool Succeeded { get; set; }
 

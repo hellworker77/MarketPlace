@@ -7,7 +7,7 @@ public interface IResult<T>
     bool Succeeded { get; set; }
 
     T Data { get; set; }
-    
+
     Exception Exception { get; set; }
 
     int Code { get; set; }

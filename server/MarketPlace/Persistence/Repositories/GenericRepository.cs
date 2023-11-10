@@ -15,7 +15,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseAuditabl
     }
 
     public IQueryable<T> Entities => _dbContext.Set<T>();
-    
+
     public async Task<T> AddAsync(T entity)
     {
         await _dbContext.Set<T>().AddAsync(entity);
@@ -24,7 +24,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseAuditabl
 
     public Task UpdateAsync(T entity)
     {
-        T exist = _dbContext.Set<T>().Find(entity.Id);
+        var exist = _dbContext.Set<T>().Find(entity.Id);
         _dbContext.Entry(exist).CurrentValues.SetValues(entity);
         return Task.CompletedTask;
     }
@@ -35,9 +35,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseAuditabl
         return Task.CompletedTask;
     }
 
-    public Task<T> GetByIdAsync(Guid id)
+    public async Task<T?> GetByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return await _dbContext
+            .Set<T>()
+            .FindAsync(id);
     }
 
     public async Task<List<T>> GetAllAsync()
@@ -47,7 +49,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseAuditabl
             .ToListAsync();
     }
 
-    public async Task<T> GetByIdAsync(int id)
+    public async Task<T?> GetByIdAsync(int id)
     {
         return await _dbContext.Set<T>().FindAsync(id);
     }

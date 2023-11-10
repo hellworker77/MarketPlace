@@ -15,7 +15,7 @@ public class EmailService : IEmailService
             Subject = request.Subject,
             Body = request.Body
         };
-        
+
         message.To.Add(new MailAddress(request.To));
         await emailClient.SendMailAsync(message);
     }

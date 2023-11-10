@@ -20,10 +20,7 @@ public class DomainEventDispatcher : IDomainEventDispatcher
 
             entity.ClearDomainEvents();
 
-            foreach (var domainEvent in events)
-            {
-                await _mediator.Publish(domainEvent).ConfigureAwait(false);
-            }
+            foreach (var domainEvent in events) await _mediator.Publish(domainEvent).ConfigureAwait(false);
         }
     }
 }
