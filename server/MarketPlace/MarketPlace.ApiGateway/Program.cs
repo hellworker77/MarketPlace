@@ -1,24 +1,13 @@
-using Application.Extension;
-using Infrastructure.Extensions;
-using Persistence.Extensions;
-using Persistence.SeedData;
-
 var builder = WebApplication.CreateBuilder(args);
 
-
-builder.Services.AddApplicationLayer();
-builder.Services.AddInfrastructureLayer();
-builder.Services.AddPersistenceLayer(builder.Configuration);
+// Add services to the container.
 
 builder.Services.AddControllers();
-
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 var app = builder.Build();
-
-app.DbInitialize();
 
 if (app.Environment.IsDevelopment())
 {
@@ -33,5 +22,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-
