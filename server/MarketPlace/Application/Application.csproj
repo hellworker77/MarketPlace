@@ -8,11 +8,6 @@
 
     <ItemGroup>
         <Folder Include="Common\Exceptions\"/>
-        <Folder Include="Features\Products\Commands\DeleteProduct\"/>
-        <Folder Include="Features\Products\Commands\UpdateProduct\"/>
-        <Folder Include="Features\Products\Queries\GetAllProducts\"/>
-        <Folder Include="Features\Products\Queries\GetProductById\"/>
-        <Folder Include="Features\Products\Queries\GetProductByTitle\"/>
         <Folder Include="Repositories\"/>
     </ItemGroup>
 

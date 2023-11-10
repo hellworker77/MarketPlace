@@ -35,9 +35,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseAuditabl
         return Task.CompletedTask;
     }
 
-    public Task<T> GetByIdAsync(Guid id)
+    public async Task<T?> GetByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return await _dbContext
+            .Set<T>()
+            .FindAsync(id);
     }
 
     public async Task<List<T>> GetAllAsync()
@@ -47,7 +49,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseAuditabl
             .ToListAsync();
     }
 
-    public async Task<T> GetByIdAsync(int id)
+    public async Task<T?> GetByIdAsync(int id)
     {
         return await _dbContext.Set<T>().FindAsync(id);
     }
