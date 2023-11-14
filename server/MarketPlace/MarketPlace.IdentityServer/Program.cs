@@ -9,6 +9,7 @@ builder.Services.AddPersistenceLayer(builder.Configuration);
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureIdentityServerContexts(builder.Configuration);
 
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();

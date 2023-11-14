@@ -1,6 +1,8 @@
 ﻿using Application.Interfaces;
 using Application.Interfaces.Repositories;
+using Domain.Identities;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +19,13 @@ public static class ServiceCollectionExtensions
         services.AddDbContext(configuration);
         services.AddRepositories();
         services.AddDbInitializer();
+    }
+    public static void AddPersistenceWithIdentityLayer(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext(configuration);
+        services.AddRepositories();
+        services.AddDbInitializer();
+        services.AddIdentities();
     }
 
     private static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
@@ -35,7 +44,17 @@ public static class ServiceCollectionExtensions
             .AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))
             .AddTransient<IProductRepository, ProductRepository>();
     }
-    
+
+    private static void AddIdentities(this IServiceCollection services)
+    {
+        services.AddDefaultIdentity<User>()
+            .AddRoles<IdentityRole<Guid>>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddUserManager<UserManager<User>>()
+            .AddRoleManager<RoleManager<IdentityRole<Guid>>>()
+            .AddDefaultTokenProviders();
+    }
+
     private static void AddDbInitializer(this IServiceCollection services)
     {
         services
