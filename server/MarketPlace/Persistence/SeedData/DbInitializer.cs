@@ -17,7 +17,13 @@ public class DbInitializer : IDbInitializer
         _applicationDbContext.Database.EnsureDeleted();
         _applicationDbContext.Database.EnsureCreated();
         
+        _applicationDbContext.Roles.AddRange(Data.Roles);
+        _applicationDbContext.SaveChanges();
+
         _applicationDbContext.Users.AddRange(Data.Users);
+        _applicationDbContext.SaveChanges();
+
+        _applicationDbContext.UserRoles.AddRange(Data.UserRoles);
         _applicationDbContext.SaveChanges();
         
         _applicationDbContext.Products.AddRange(Data.Products);
