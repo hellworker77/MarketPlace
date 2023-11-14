@@ -13,11 +13,60 @@ namespace Infrastructure.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddInfrastructureLayer(this IServiceCollection services, IConfiguration configuration, string audience)
+    public static void AddInfrastructureLayer(this IServiceCollection services, IConfiguration configuration,
+        string audience)
     {
         services.AddServices();
         services.ConfigureAuthentication(configuration, audience);
     }
+
+    public static void AddSwaggerGenWithAuth(this IServiceCollection services, IConfiguration configuration,
+        string scope, string title)
+    {
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Description = "Swagger API",
+                Title = title,
+                Version = "0.0.1"
+            });
+            options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.OAuth2,
+                Flows = new OpenApiOAuthFlows
+                {
+                    Password = new OpenApiOAuthFlow
+                    {
+                        TokenUrl = new Uri(configuration.GetValue<string>("IdentityTokenUrl")!),
+                        Scopes = new Dictionary<string, string>
+                        {
+                            {scope, scope}
+                        }
+                    }
+                },
+                Scheme = "Bearer"
+            });
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "oauth2"
+                        },
+                        Scheme = "oauth2",
+                        Name = "Bearer",
+                        In = ParameterLocation.Header
+                    },
+                    new List<string>()
+                }
+            });
+        });
+    }
+
     private static void AddServices(this IServiceCollection services)
     {
         services
@@ -26,7 +75,9 @@ public static class ServiceCollectionExtensions
             .AddTransient<IDateTimeService, DateTimeService>()
             .AddTransient<IEmailService, EmailService>();
     }
-    private static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration, string audience)
+
+    private static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration,
+        string audience)
     {
         JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
         var identityUrl = configuration.GetValue<string>("IdentityUrl");
@@ -36,7 +87,6 @@ public static class ServiceCollectionExtensions
             options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
         }).AddJwtBearer(options =>
         {
             options.Authority = identityUrl;
