@@ -2,11 +2,21 @@
 using Domain.Common;
 using Domain.Common.Interfaces;
 using Domain.Entities;
+using Domain.Identities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Contexts;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<User,
+    IdentityRole<Guid>,
+    Guid,
+    IdentityUserClaim<Guid>,
+    IdentityUserRole<Guid>,
+    IdentityUserLogin<Guid>,
+    IdentityRoleClaim<Guid>,
+    IdentityUserToken<Guid>>
 {
     private readonly IDomainEventDispatcher? _dispatcher;
 
@@ -17,6 +27,8 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<Product> Products => Set<Product>();
+    public DbSet<Favorite> Favorites => Set<Favorite>();
+    public DbSet<Media> Medias => Set<Media>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
