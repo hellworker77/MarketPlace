@@ -1,6 +1,10 @@
-﻿namespace Domain.Identities;
+﻿using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
-public class User
+namespace Domain.Identities;
+
+public class User : IdentityUser<Guid>
 {
-    
+    public virtual List<Product> Products { get; set; }
+    public virtual List<Favorite> Favorites { get; set; }
 }
