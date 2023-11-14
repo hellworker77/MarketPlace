@@ -20,6 +20,10 @@ public class ApplicationDbContext : IdentityDbContext<User,
 {
     private readonly IDomainEventDispatcher? _dispatcher;
 
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    {
+        
+    }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options,
         IDomainEventDispatcher dispatcher) : base(options)
     {
