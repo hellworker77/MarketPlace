@@ -14,13 +14,14 @@ namespace Persistence.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
+    public static void AddPersistenceLayerForIdentityServer(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext(configuration);
         services.AddRepositories();
         services.AddDbInitializer();
     }
-    public static void AddPersistenceWithIdentityLayer(this IServiceCollection services, IConfiguration configuration)
+
+    public static void AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext(configuration);
         services.AddRepositories();
@@ -60,6 +61,7 @@ public static class ServiceCollectionExtensions
         services
             .AddTransient<IDbInitializer, DbInitializer>();
     }
+
     public static void DbInitialize(this IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.CreateScope();

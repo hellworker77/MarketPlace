@@ -16,9 +16,10 @@ public static class Data
             ConcurrencyStamp = Guid.NewGuid().ToString("D")
         }
     };
+
     public static readonly List<User> Users = new()
     {
-        new User()
+        new User
         {
             Id = Guid.NewGuid(),
             Email = "admin@aaa.com",
@@ -31,7 +32,8 @@ public static class Data
             SecurityStamp = Guid.NewGuid().ToString("D")
         }
     };
-    public static readonly List<IdentityUserRole<Guid>> UserRoles = new ()
+
+    public static readonly List<IdentityUserRole<Guid>> UserRoles = new()
     {
         new IdentityUserRole<Guid>
         {
@@ -39,9 +41,10 @@ public static class Data
             RoleId = Roles.FirstOrDefault()!.Id
         }
     };
+
     public static readonly List<Product> Products = new()
     {
-        new Product()
+        new Product
         {
             Title = "product title",
             Price = 12.24f,
@@ -52,7 +55,7 @@ public static class Data
             UserId = Users.FirstOrDefault()!.Id
         }
     };
-    public static List<Favorite> Favorites => new ();
-    public static List<Media> Medias => new ();
-   
+
+    public static List<Favorite> Favorites => new();
+    public static List<Media> Medias => new();
 }

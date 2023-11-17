@@ -16,7 +16,7 @@ public class DbInitializer : IDbInitializer
     {
         _applicationDbContext.Database.EnsureDeleted();
         _applicationDbContext.Database.EnsureCreated();
-        
+
         _applicationDbContext.Roles.AddRange(Data.Roles);
         _applicationDbContext.SaveChanges();
 
@@ -25,15 +25,14 @@ public class DbInitializer : IDbInitializer
 
         _applicationDbContext.UserRoles.AddRange(Data.UserRoles);
         _applicationDbContext.SaveChanges();
-        
+
         _applicationDbContext.Products.AddRange(Data.Products);
         _applicationDbContext.SaveChanges();
-        
+
         _applicationDbContext.Favorites.AddRange(Data.Favorites);
         _applicationDbContext.SaveChanges();
-        
+
         _applicationDbContext.Medias.AddRange(Data.Medias);
         _applicationDbContext.SaveChanges();
-
     }
 }
