@@ -1,4 +1,5 @@
 ﻿using Application.Common.Mappings;
+using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -22,16 +23,20 @@ internal class CreateProductCommandHandler : IRequestHandler<CreateProductComman
 {
     private readonly IMapper _mapper;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IIdentityService _identityService;
 
     public CreateProductCommandHandler(IUnitOfWork unitOfWork,
-        IMapper mapper)
+        IMapper mapper,
+        IIdentityService identityService)
     {
         _unitOfWork = unitOfWork;
         _mapper = mapper;
+        _identityService = identityService;
     }
 
     public async Task<Result<Guid>> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
+        var userId = _identityService.GetUserIdentity();
         var product = new Product
         {
             Title = command.Title,
@@ -39,7 +44,8 @@ internal class CreateProductCommandHandler : IRequestHandler<CreateProductComman
             Description = command.Description,
             Category = command.Category,
             Rate = command.Rate,
-            RemainingCount = command.RemainingCount
+            RemainingCount = command.RemainingCount,
+            UserId = userId
         };
 
         await _unitOfWork.Repository<Product>().AddAsync(product);

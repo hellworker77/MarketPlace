@@ -7,7 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Common\Exceptions\"/>
+        <Folder Include="Features\Favorite\Commands\" />
+        <Folder Include="Features\Favorite\Queries\GetAllByUserId\" />
+        <Folder Include="Features\Favorite\Queries\GetByIdWithUserId\" />
+        <Folder Include="Features\Media\Commands\" />
+        <Folder Include="Features\Media\Queries\" />
         <Folder Include="Repositories\"/>
     </ItemGroup>
 

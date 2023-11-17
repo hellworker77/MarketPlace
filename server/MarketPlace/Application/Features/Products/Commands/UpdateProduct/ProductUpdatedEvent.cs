@@ -9,6 +9,6 @@ public class ProductUpdatedEvent : BaseEvent
     {
         Product = product;
     }
-    
+
     public Product Product { get; }
 }

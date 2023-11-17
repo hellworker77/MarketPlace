@@ -19,4 +19,10 @@ public class ProductRepository : IProductRepository
             .Where(product => product.Title.ToLower().Contains(title.ToLower()))
             .ToListAsync();
     }
+
+    public async Task<Product?> GetByIdWithUserIdAsync(Guid id, Guid userId)
+    {
+        return await _repository.Entities
+            .FirstOrDefaultAsync(x => x.Id == id && x.UserId == userId);
+    }
 }

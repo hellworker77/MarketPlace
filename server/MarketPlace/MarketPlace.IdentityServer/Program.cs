@@ -1,22 +1,37 @@
+using MarketPlace.IdentityServer.Common;
+using MarketPlace.IdentityServer.Extensions;
+using Persistence.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddIdentityCors();
+builder.Services.AddPersistenceLayerForIdentityServer(builder.Configuration);
+builder.Services.ConfigureIdentity();
+builder.Services.ConfigureIdentityServerContexts(builder.Configuration);
+
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.InitializeDatabase();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+app.UseCorsWithPolicy();
+
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseIdentityServer();
 
 app.UseAuthorization();
 

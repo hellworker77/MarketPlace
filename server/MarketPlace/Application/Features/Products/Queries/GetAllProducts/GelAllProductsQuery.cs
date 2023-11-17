@@ -1,6 +1,4 @@
-﻿
-
-using Application.Interfaces.Repositories;
+﻿using Application.Interfaces.Repositories;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Entities;
@@ -14,8 +12,8 @@ public record GelAllProductsQuery : IRequest<Result<List<GelAllProductsDto>>>;
 
 internal class GelAllProductsQueryHandler : IRequestHandler<GelAllProductsQuery, Result<List<GelAllProductsDto>>>
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
 
     public GelAllProductsQueryHandler(IUnitOfWork unitOfWork,
         IMapper mapper)
@@ -23,13 +21,14 @@ internal class GelAllProductsQueryHandler : IRequestHandler<GelAllProductsQuery,
         _unitOfWork = unitOfWork;
         _mapper = mapper;
     }
-    
-    public async Task<Result<List<GelAllProductsDto>>> Handle(GelAllProductsQuery request, CancellationToken cancellationToken)
+
+    public async Task<Result<List<GelAllProductsDto>>> Handle(GelAllProductsQuery request,
+        CancellationToken cancellationToken)
     {
         var products = await _unitOfWork.Repository<Product>().Entities
             .ProjectTo<GelAllProductsDto>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
-        
+
         return await Result<List<GelAllProductsDto>>.SuccessAsync(products);
     }
 }

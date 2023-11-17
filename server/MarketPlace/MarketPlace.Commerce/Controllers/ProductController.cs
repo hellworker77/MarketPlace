@@ -6,6 +6,7 @@ using Application.Features.Products.Queries.GetProductById;
 using Application.Features.Products.Queries.GetProductByTitle;
 using Application.Features.Products.Queries.GetProductsWithPagination;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
 
@@ -21,20 +22,26 @@ public class ProductController : ControllerBase
     {
         _mediator = mediator;
     }
-    
-    [HttpGet]
-    public async Task<ActionResult<Result<List<GelAllProductsDto>>>> Get() 
-        => await _mediator.Send(new GelAllProductsQuery());
 
-    [HttpGet("{id}")]
+    [HttpGet]
+    public async Task<ActionResult<Result<List<GelAllProductsDto>>>> Get()
+    {
+        return await _mediator.Send(new GelAllProductsQuery());
+    }
+
+    [HttpGet("{id:guid}")]
     public async Task<ActionResult<Result<GetProductByIdDto>>> GetProductById(Guid id)
-        => await _mediator.Send(new GetProductByIdQuery(id));
+    {
+        return await _mediator.Send(new GetProductByIdQuery(id));
+    }
 
     [HttpGet]
     [Route("title/{title}")]
     public async Task<ActionResult<Result<List<GetProductByTitleDto>>>> GetProductsByTitle(string title)
-        => await _mediator.Send(new GetProductByTitleQuery(title));
-    
+    {
+        return await _mediator.Send(new GetProductByTitleQuery(title));
+    }
+
     [HttpGet]
     [Route("paged")]
     public async Task<ActionResult<PaginatedResult<GetProductsWithPaginationDto>>> GetProductsWithPagination(
@@ -46,25 +53,30 @@ public class ProductController : ControllerBase
 
         if (result.IsValid) return await _mediator.Send(query);
 
-        var errorMessages = result.Errors.Select(x => x.ErrorMessage).ToList();
+        var errorMessages = result.Errors
+            .Select(x => x.ErrorMessage)
+            .ToList();
         return BadRequest(errorMessages);
     }
+
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<Result<Guid>>> Create(CreateProductCommand command)
-        => await _mediator.Send(command);
-
-    [HttpPut("{id}")]
-    public async Task<ActionResult<Result<Guid>>> Update(Guid id, UpdateProductCommand command)
     {
-        if (id != command.Id)
-        {
-            return BadRequest();
-        }
-
         return await _mediator.Send(command);
     }
-    
-    [HttpDelete("{id}")]
+
+    [Authorize]
+    [HttpPut]
+    public async Task<ActionResult<Result<Guid>>> Update(UpdateProductCommand command)
+    {
+        return await _mediator.Send(command);
+    }
+
+    [Authorize]
+    [HttpDelete("{id:guid}")]
     public async Task<ActionResult<Result<Guid>>> Delete(Guid id)
-        => await _mediator.Send(new DeleteProductCommand(id));
+    {
+        return await _mediator.Send(new DeleteProductCommand(id));
+    }
 }

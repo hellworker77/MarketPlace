@@ -9,6 +9,6 @@ public class ProductDeletedEvent : BaseEvent
     {
         Product = product;
     }
-    
+
     public Product Product { get; }
 }
