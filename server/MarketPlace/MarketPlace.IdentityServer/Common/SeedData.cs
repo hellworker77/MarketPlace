@@ -15,20 +15,18 @@ public static class SeedData
 
         var notExistedClients = Configurations.GetClients()
             .Where(c => !context.Clients.Select(x => x.ClientId).Contains(c.ClientId)).ToList();
-        
+
         foreach (var notExistedClient in notExistedClients)
         {
             context.Clients.Add(notExistedClient.ToEntity());
 
             context.SaveChanges();
         }
-        
+
         if (!context.IdentityResources.Any())
         {
             foreach (var resource in Configurations.GetIdentityResources())
-            {
                 context.IdentityResources.Add(resource.ToEntity());
-            }
             context.SaveChanges();
         }
 

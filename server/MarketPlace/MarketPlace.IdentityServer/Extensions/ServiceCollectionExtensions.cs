@@ -8,7 +8,7 @@ namespace MarketPlace.IdentityServer.Extensions;
 internal static class ServiceCollectionExtensions
 {
     private static readonly string Policy = "any";
-    
+
     internal static void AddIdentityCors(this IServiceCollection services)
     {
         services.AddCors(options =>
@@ -32,26 +32,24 @@ internal static class ServiceCollectionExtensions
             .AddUserManager<UserManager<User>>()
             .AddDefaultTokenProviders();
     }
+
     internal static void ConfigureIdentityServerContexts(this IServiceCollection services, IConfiguration configuration)
     {
-       services.AddIdentityServer(options =>
-           {
-               options.UserInteraction.LoginUrl = null;
-           })
-           .AddConfigurationStore(options =>
-           {
-               options.ConfigureDbContext = context =>
-                   context.UseNpgsql(configuration.GetConnectionString("configurationDb"),
-                       migration => migration.MigrationsAssembly(typeof(Program).Assembly.GetName().Name));
-           })
-           .AddOperationalStore(options =>
-           {
-               options.ConfigureDbContext = context =>
-                   context.UseNpgsql(configuration.GetConnectionString("operationalDb"),
-                       migration => migration.MigrationsAssembly(typeof(Program).Assembly.GetName().Name));
-           })
-           .AddDeveloperSigningCredential()
-           .AddAspNetIdentity<User>();
+        services.AddIdentityServer(options => { options.UserInteraction.LoginUrl = null; })
+            .AddConfigurationStore(options =>
+            {
+                options.ConfigureDbContext = context =>
+                    context.UseNpgsql(configuration.GetConnectionString("configurationDb"),
+                        migration => migration.MigrationsAssembly(typeof(Program).Assembly.GetName().Name));
+            })
+            .AddOperationalStore(options =>
+            {
+                options.ConfigureDbContext = context =>
+                    context.UseNpgsql(configuration.GetConnectionString("operationalDb"),
+                        migration => migration.MigrationsAssembly(typeof(Program).Assembly.GetName().Name));
+            })
+            .AddDeveloperSigningCredential()
+            .AddAspNetIdentity<User>();
     }
 
     internal static void UseCorsWithPolicy(this IApplicationBuilder app)

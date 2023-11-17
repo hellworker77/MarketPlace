@@ -5,7 +5,7 @@ using Persistence.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddIdentityCors();
-builder.Services.AddPersistenceLayer(builder.Configuration);
+builder.Services.AddPersistenceLayerForIdentityServer(builder.Configuration);
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureIdentityServerContexts(builder.Configuration);
 
