@@ -73,6 +73,7 @@ public static class ServiceCollectionExtensions
             .AddTransient<IMediator, Mediator>()
             .AddTransient<IDomainEventDispatcher, DomainEventDispatcher>()
             .AddTransient<IDateTimeService, DateTimeService>()
+            .AddTransient<IIdentityService, IdentityService>()
             .AddTransient<IEmailService, EmailService>();
     }
 

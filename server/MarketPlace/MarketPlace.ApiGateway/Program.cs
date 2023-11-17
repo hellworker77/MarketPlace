@@ -1,12 +1,10 @@
-using Application.Extension;
-using Infrastructure.Extensions;
 using Persistence.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddApplicationLayer();
-builder.Services.AddInfrastructureLayer(builder.Configuration, "api");
+//builder.Services.AddApplicationLayer();
+//builder.Services.AddInfrastructureLayer(builder.Configuration, "api");
 builder.Services.AddPersistenceLayer(builder.Configuration);
 builder.Services.AddControllers();
 
