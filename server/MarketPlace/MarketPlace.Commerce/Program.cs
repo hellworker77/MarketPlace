@@ -1,6 +1,5 @@
 using Application.Extension;
 using Infrastructure.Extensions;
-using Microsoft.OpenApi.Models;
 using Persistence.Extensions;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
@@ -8,12 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplicationLayer();
 builder.Services.AddInfrastructureLayer(builder.Configuration, "api");
-builder.Services.AddPersistenceWithIdentityLayer(builder.Configuration);
+builder.Services.AddPersistenceLayer(builder.Configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGenWithAuth(builder.Configuration, "api", "commerce");
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
