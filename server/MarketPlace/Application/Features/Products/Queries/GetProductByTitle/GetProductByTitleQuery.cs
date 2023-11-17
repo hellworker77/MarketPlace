@@ -10,11 +10,12 @@ public record GetProductByTitleQuery(string Title) : IRequest<Result<List<GetPro
     public string Title { get; set; } = Title;
 }
 
-internal class GetProductByTitleQueryHandler : IRequestHandler<GetProductByTitleQuery, Result<List<GetProductByTitleDto>>>
+internal class
+    GetProductByTitleQueryHandler : IRequestHandler<GetProductByTitleQuery, Result<List<GetProductByTitleDto>>>
 {
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
+    private readonly IProductRepository _productRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     public GetProductByTitleQueryHandler(IUnitOfWork unitOfWork,
         IProductRepository productRepository,

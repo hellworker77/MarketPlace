@@ -4,7 +4,7 @@ using Domain.Entities;
 #pragma warning disable CS8618
 namespace Application.Features.Products.Queries.GetAllProducts;
 
-public class GelAllProductsDto: IMapFrom<Product>
+public class GelAllProductsDto : IMapFrom<Product>
 {
     public Guid Id { get; set; }
     public string Title { get; set; }
