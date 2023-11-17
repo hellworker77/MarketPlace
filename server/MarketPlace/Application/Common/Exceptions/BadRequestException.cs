@@ -1,15 +1,12 @@
 ﻿namespace Application.Common.Exceptions;
 
-public class BadRequestException: Exception
+public class BadRequestException : Exception
 {
-    public string[]? Errors { get; set; }
-
     public BadRequestException()
-        : base()
     {
     }
 
-    public BadRequestException(string message) 
+    public BadRequestException(string message)
         : base(message)
     {
     }
@@ -23,4 +20,6 @@ public class BadRequestException: Exception
     {
         Errors = errors;
     }
+
+    public string[]? Errors { get; set; }
 }
